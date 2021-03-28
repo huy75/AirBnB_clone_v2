@@ -40,7 +40,6 @@ class HBNBCommand(cmd.Cmd):
         "InvalidInput": "** invalid input **"
     }
 
-
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
