@@ -19,6 +19,7 @@ from sqlalchemy.orm import scoped_session
 
 import os
 
+
 class DBStorage:
     """
     The Db_Storage class
@@ -62,7 +63,6 @@ class DBStorage:
                 liste = self.__session.query(row).all()
                 d = self.list_to_dict(liste, d)
         return d
-                    
 
     def list_to_dict(self, liste, d):
         """
@@ -72,7 +72,6 @@ class DBStorage:
             key = obj.__class__.__name__ + '.' + obj.id
             d[key] = obj
         return d
-
 
     def new(self, obj):
         """
