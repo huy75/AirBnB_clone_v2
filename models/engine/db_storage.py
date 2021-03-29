@@ -12,7 +12,6 @@ from models.place import Place
 from models.review import Review
 
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
