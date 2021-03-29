@@ -7,7 +7,7 @@ from models.city import City
 import models
 import os
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
 
@@ -23,7 +23,7 @@ class State(BaseModel):
     @property
     def cities(self):
         lCities = []
-        for _, city in models.storage.all(City).items():
+        for city in models.storage.all(City):
             if self.id == city.state_id:
                 lCities.append(city)
         return lCities
