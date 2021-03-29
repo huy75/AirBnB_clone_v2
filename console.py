@@ -15,6 +15,7 @@ from models.engine.db_storage import DBStorage
 
 import models
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -71,8 +72,7 @@ class HBNBCommand(cmd.Cmd):
 
             # isolate and validate <command>
             _cmd = pline[pline.find('.') + 1:pline.find('(')]
-    
-            d = {}
+
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
