@@ -6,7 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 import models
 
-
 Base = declarative_base()
 
 
@@ -25,19 +24,23 @@ class BaseModel:
                         default=dt.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
-        if not kwargs:
-            from models import storage
-            self.id = str(uuid.uuid4())
-            self.created_at = dt.now()
-            self.updated_at = dt.now()
+        """Instantiates a new model"""
+        if kwargs:
+            for k, v in kwargs.items():
+                if k in ["created_at", "updated_at"]:
+                    v = dt.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+                if k != "__class__":
+                    setattr(self, k, v)
+            if self.id is None:
+                setattr(self, 'id', str(uuid.uuid4()))
+            now = dt.now()
+            if self.created_at is None:
+                self.created_at = now
+            if self.updated_at is None:
+                self.updated_at = now
         else:
-            kwargs['updated_at'] = dt.strptime(kwargs['updated_at'],
-                                               '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = dt.strptime(kwargs['created_at'],
-                                               '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            self.id = str(uuid.uuid4())
+            self.created_at = self.updated_at = dt.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
