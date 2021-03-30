@@ -15,7 +15,7 @@ import os
 from datetime import datetime
 
 
-class TestBaseDocs(unitt.TestCase):
+class TestBaseDocs(unittest.TestCase):
     """
     Tests to check the documentation and style of Base class
     """
