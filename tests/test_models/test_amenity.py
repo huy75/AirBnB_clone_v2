@@ -1,19 +1,20 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""
+Unit tests for Amenity
+"""
+import unittest
+import pep8
+import inspect
+import json
+from models.base_model import BaseModel
 from models.amenity import Amenity
+from unittest.mock import patch
+from io import StringIO
+import os
+from datetime import datetime
 
 
-class test_Amenity(test_basemodel):
-    """ """
-
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "Amenity"
-        self.value = Amenity
-
-    def test_name2(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+class TestAmenity(unittest.TestCase):
+    """
+    Test the Amenity class.
+    """

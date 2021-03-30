@@ -1,29 +1,24 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""
+Unit tests for review
+"""
+import unittest
+import pep8
+import inspect
+import json
+from models.base_model import BaseModel
 from models.review import Review
+from models.user import User
+from models.place import Place
+from models.city import City
+from models.state import State
+from unittest.mock import patch
+from io import StringIO
+import os
+from datetime import datetime
 
 
-class test_review(test_basemodel):
-    """ """
-
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "Review"
-        self.value = Review
-
-    def test_place_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.place_id), str)
-
-    def test_user_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.user_id), str)
-
-    def test_text(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.text), str)
+class TestReview(unittest.TestCase):
+    """
+    Test the Review class.
+    """

@@ -1,34 +1,19 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""
+Unit tests for base model
+"""
+import unittest
+import pep8
+import inspect
+import json
+from models.base_model import BaseModel
 from models.user import User
+from unittest.mock import patch
+from io import StringIO
+import os
+from datetime import datetime
 
-
-class test_User(test_basemodel):
-    """ """
-
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "User"
-        self.value = User
-
-    def test_first_name(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.first_name), str)
-
-    def test_last_name(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.last_name), str)
-
-    def test_email(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.email), str)
-
-    def test_password(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.password), str)
+class TestState(unittest.TestCase):
+    """
+    Test the State class.
+    """
