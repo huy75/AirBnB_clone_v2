@@ -1,110 +1,87 @@
 #!/usr/bin/python3
+"""test for console"""
 import unittest
-from io import StringIO
-from console import HBNBCommand
 from unittest.mock import patch
-from models.engine.file_storage import FileStorage
+from io import StringIO
+import pep8
+import os
+import json
+import console
+import tests
+from console import HBNBCommand
+
 from models.base_model import BaseModel
-from models.place import Place
-from models.amenity import Amenity
-from models.city import City
-from models.review import Review
-from models.state import State
 from models.user import User
-import os.path
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
 from models import storage
-from os import path
-"""
-    UnitTest for the command line interpreter
-"""
 
 
 class TestConsole(unittest.TestCase):
-    b = BaseModel()
+    """ """
+    @classmethod
+    def setUpClass(cls):
+        """setup for the test"""
+        cls.consol = HBNBCommand()
 
-    def setUp(self):
-        FileStorage._FileStorage__objects = {}
-    # if os.path.exists("file.json"):
-    # os.remove("file.json")
-    # def tearDown(self):
-    #    if os.path.exists("file.json"):
-    #        os.remove("file.json")
-    """
-        Create cmd
-    """
+    @classmethod
+    def tearDownClass(cls):
+        """at the end of the test this will tear it down"""
+        del cls.consol
 
-    def test_create_with_arguments(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
+    def tearDown(self):
+        """Remove temporary file (file.json) created as a result"""
+        try:
+            os.remove("file.json")
+        except Exception:
+            pass
+
+    def test_pep8_console(self):
+        """Pep8 console.py"""
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(["console.py"])
+        self.assertEqual(p.total_errors, 0, 'go fix Pep8')
+
+    def test_docstrings_in_console(self):
+        """checking for docstrings"""
+        self.assertIsNotNone(console.__doc__)
+        self.assertIsNotNone(HBNBCommand.emptyline.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_quit.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_EOF.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_create.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_show.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_destroy.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_all.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_update.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_count.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_test.__doc__)
+
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db",
+                     "Testing db")
+    def test_create(self):
+        """Test create command input"""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create City name="San Francisco" \
-            state_id="0001"')
-        self.assertTrue(os.path.exists("file.json"))
-
-    def test_create_with_one_false_arguments(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
+            self.consol.onecmd("create")
+            self.assertEqual(
+                "** class name missing **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create City name="San Francisco" \
-            statedz="0001"')
-        f = FileStorage()
-        f.reload()
-        with self.assertRaises(AttributeError) as cm:
-            for k, v in f._FileStorage__objects.items():
-                v.foo
-        self.assertEqual("'City' object has no attribute 'foo'",
-                         str(cm.exception))
+            self.consol.onecmd("create notAClass")
+            self.assertEqual(
+                "** class doesn't exist **\n", f.getvalue())
 
-    def test_create_with_one_good_arguments_with_space_in_name(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create City name="San Francisco" \
-            state_id="0001"')
-        f = FileStorage()
-        f.reload()
-        for k, v in f._FileStorage__objects.items():
-            self.assertEqual(v.name, "San Francisco")
+            self.consol.onecmd("create User")
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd('create State name="California"')
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all User")
+            self.assertEqual(
+                "[[User]", f.getvalue()[:7])
 
-    def test_create_with_good_arguments(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create City name="Paris" state_id="0001"')
-        f = FileStorage()
-        f.reload()
-        for k, v in f._FileStorage__objects.items():
-            self.assertEqual(v.name, "Paris")
-            self.assertEqual(v.state_id, "0001")
-
-    def test_create_with_boolean_value_arguments(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create Place name="My_little_house" \
-            longitude=-122.431297')
-        f = FileStorage()
-        f.reload()
-        for k, v in f._FileStorage__objects.items():
-            self.assertEqual(v.longitude, -122.431297)
-
-    def test_create_with_name_And_underscore_value_arguments(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create Place name="My_little_house"')
-        f = FileStorage()
-        f.reload()
-        for k, v in f._FileStorage__objects.items():
-            self.assertEqual(v.name, "My little house")
-
-    def test_create_with_integer_value_arguments(self):
-        """ Test that create an object with args """
-        # self.assertFalse(os.path.exists("file.json"))
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd('create Place name="My_little_house" \
-            price_by_night=300')
-        f = FileStorage()
-        f.reload()
-        for k, v in f._FileStorage__objects.items():
-            self.assertEqual(v.price_by_night, 300)
+if __name__ == "__main__":
+    unittest.main()
