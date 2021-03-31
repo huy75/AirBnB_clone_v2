@@ -13,6 +13,7 @@ from io import StringIO
 import os
 from datetime import datetime
 
+
 class TestState(unittest.TestCase):
     """
     Test the State class.
