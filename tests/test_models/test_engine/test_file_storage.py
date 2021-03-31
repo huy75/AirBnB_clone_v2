@@ -138,3 +138,23 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def reload(self):
+        """Loads storage dictionary from file"""
+        try:
+            temp = {}
+            with open(FileStorage.__file_path, 'r') as f:
+                temp = json.load(f)
+                for key, val in temp.items():
+                        self.all()[key] = classes[val['__class__']](**val)
+        except FileNotFoundError:
+            pass
+
+    def delete(self, obj=None):
+        """Method to delete an object"""
+        if obj is None:
+            return
+        key = obj.__class__.__name__ + '.' + obj.id
+        if key in self.__objects:
+            del self.__objects[key]
+            self.save()
