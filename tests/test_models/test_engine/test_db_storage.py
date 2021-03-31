@@ -17,6 +17,7 @@ from models.engine.file_storage import FileStorage
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.engine.base import Engine
+from models import storage
 
 
 class TestDBStorage(unittest.TestCase):
@@ -86,6 +87,52 @@ class TestDBStorage(unittest.TestCase):
                          "console.py needs a docstring")
         self.assertTrue(len(DBStorage.__doc__) >= 1,
                         "console.py needs a docstring")
+
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "can't run if storage is file")
+    def test_attributes_DBStorage(self):
+        """Tests for class attributes"""
+        self.assertTrue(hasattr(DBStorage, 'all'))
+        self.assertTrue(hasattr(DBStorage, 'new'))
+        self.assertTrue(hasattr(DBStorage, 'save'))
+        self.assertTrue(hasattr(DBStorage, 'reload'))
+        self.assertTrue(hasattr(DBStorage, 'delete'))
+        self.assertTrue(hasattr(DBStorage, '_DBStorage__engine'))
+        self.assertTrue(hasattr(DBStorage, '_DBStorage__session'))
+
+    @unittest.skipIf(type(models.storage) == DBStorage,
+                     "can't run if storage is file")
+    def test_all_DBStorage(self):
+        """Tests for the all method"""
+        state = State(name="California")
+        storage.new(state)
+        storage.save()
+        key = '{}.{}'.format(type(state).__name__, state.id)
+        dic = storage.all(State)
+        self.assertTrue(key in dic.keys())
+        state1 = State(name="Oregon")
+        storage.new(state1)
+        storage.save()
+        key1 = '{}.{}'.format(type(state1).__name__, state1.id)
+        dic1 = storage.all()
+        self.assertTrue(key in dic1.keys())
+        self.assertTrue(key1 in dic1.keys())
+        u = User(email="scoot@noot", password="scootnoot")
+        storage.new(u)
+        storage.save()
+        key2 = '{}.{}'.format(type(u).__name__, u.id)
+        dic2 = storage.all(User)
+        self.assertTrue(key2 in dic2.keys())
+        self.assertFalse(key1 in dic2.keys())
+        self.assertFalse(key in dic2.keys())
+        self.assertFalse(key2 in dic.keys())
+
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db',
+                     "can't run if storage is file")
+    def test_reload(self):
+        """Test for reload()"""
+        obj = DBStorage()
+        self.assertTrue(obj._DBStorage__engine is not None)
 
 if __name__ == "__main__":
     unittest.main()
