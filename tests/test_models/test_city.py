@@ -87,7 +87,7 @@ class TestCity(unittest.TestCase):
 
     def test_type_name(self):
         """
-        Test the type of name.
+        Test the type of state_id.
         """
         new_city = self.city
         name = getattr(new_city, "state_id")
