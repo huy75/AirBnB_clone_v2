@@ -18,7 +18,7 @@ import os
 from datetime import datetime
 
 
-class TestBaseDocs(unittest.TestCase):
+class TestReviewDocs(unittest.TestCase):
     """
     Tests to check the documentation and style of Review class
     """

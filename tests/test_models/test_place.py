@@ -17,7 +17,7 @@ import os
 from datetime import datetime
 
 
-class TestPlace(unittest.TestCase):
+class TestPlaceDocs(unittest.TestCase):
     """
     Test Place class
     """
