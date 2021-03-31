@@ -21,7 +21,7 @@ class TestPlace(unittest.TestCase):
     """
     Test Place class
     """
-   @classmethod
+    @classmethod
     def setUpClass(cls):
         """
         Set up for the doc tests
@@ -164,7 +164,7 @@ class TestPlace(unittest.TestCase):
         """
         city_id = getattr(self.new_place, "city_id")
         self.assertIsInstance(city_id, str)
-        
+
     def test_type_id(self):
         """
         Test the type of id.
