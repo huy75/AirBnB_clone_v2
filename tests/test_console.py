@@ -44,21 +44,21 @@ class TestConsole(unittest.TestCase):
     def test_pep8_console(self):
         """Pep8 console.py"""
         style = pep8.StyleGuide(quiet=True)
-        result = style.check_files(["console.py"])
-        self.assertEqual(result.total_errors, 0, 'go fix Pep8')
+        resultc = style.check_files(["console.py"])
+        self.assertEqual(resultc.total_errors, 0, 'go fix Pep8')
+        resultt = style.check_files(['tests/test_console.py'])
+        self.assertEqual(resultt.total_errors, 0, 'go fix Pep8')
 
     def test_docstrings_in_console(self):
         """checking for docstrings"""
-        self.assertIsNotNone(HBNBCommand.__doc__)
-        self.assertIsNotNone(HBNBCommand.emptyline.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_quit.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_EOF.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_create.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_show.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_destroy.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_all.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_update.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_count.__doc__)
+        self.assertIsNot(console.__doc__, None,
+                         "console.py needs a docstring")
+        self.assertTrue(len(console.__doc__) >= 1,
+                        "console.py needs a docstring")
+        self.assertIsNot(HBNBCommand.__doc__, None,
+                         "HBNBCommand class needs a docstring")
+        self.assertTrue(len(HBNBCommand.__doc__) >= 1,
+                        "HBNBCommand class needs a docstring")
 
     def test_emptyline(self):
         """Test empty line input"""
@@ -114,6 +114,13 @@ class TestConsole(unittest.TestCase):
             call = ('create State name="California"')
             self.HBNB.onecmd(call)
             st = f.getvalue().strip()
+            ids = []
+            ID = ''
+            ID = str(f.getvalue())
+            ids.append(ID[:-1])
+            key = "State." + ids[0]
+            dict = storage.all()[key]
+            self.assertTrue('name' in dict.__dict__)
         with patch("sys.stdout", new=StringIO()) as f:
             self.HBNB.onecmd("all State")
             output = f.getvalue()
