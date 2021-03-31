@@ -65,7 +65,7 @@ class TestCity(unittest.TestCase):
 
     def test_City_attributes(self):
         """
-        Test State class type attributes.
+        Test City class type attributes.
         """
         new_city = self.city
         self.assertTrue("state_id" in new_city.__dir__())

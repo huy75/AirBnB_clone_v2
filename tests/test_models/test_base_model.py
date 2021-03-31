@@ -29,7 +29,7 @@ class TestBaseDocs(unittest.TestCase):
         Test that models/base_model.py conforms to PEP8.
         """
         pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['models/state.py'])
+        result = pep8style.check_files(['models/base_model.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -110,10 +110,10 @@ class TestBaseModel(unittest.TestCase):
         Test str method
         """
         for base in self.tests:
-            v = "[BaseModel] ({}) {}\n".format(base.id, base.__dict__)
+            value = "[BaseModel] ({}) {}\n".format(base.id, base.__dict__)
             with patch('sys.stdout', new=StringIO()) as fake_out:
                 print(base)
-                self.assertEqual(fake_out.getvalue(), v)
+                self.assertEqual(fake_out.getvalue(), value)
 
     def test_save_method(self):
         """Test save method"""
@@ -148,14 +148,18 @@ class TestBaseModel(unittest.TestCase):
             self.assertEqual(json["created_at"], e1)
 
     def test_arg_errors(self):
-        """Test number of arguments"""
+        """
+        Test number of arguments
+        """
         with self.assertRaises(Exception):
             BaseModel(1, 2)
             self.b1.save(1, 2)
             self.b1.to_dict(1, 2)
 
     def test_kwargs(self):
-        """Test kwargs"""
+        """
+        Test kwargs
+        """
         for base in self.tests:
             json = base.to_dict()
             copy = BaseModel(**json)
