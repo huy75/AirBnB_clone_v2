@@ -133,6 +133,6 @@ class TestDBStorage(unittest.TestCase):
         """Test for reload()"""
         obj = DBStorage()
         self.assertTrue(obj._DBStorage__engine is not None)
-
+"""
 if __name__ == "__main__":
     unittest.main()
