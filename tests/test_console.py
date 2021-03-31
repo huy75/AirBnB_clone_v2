@@ -27,12 +27,12 @@ class TestConsole(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """setup for the test"""
-        cls.consol = HBNBCommand()
+        cls.HBNB = HBNBCommand()
 
     @classmethod
     def tearDownClass(cls):
         """at the end of the test this will tear it down"""
-        del cls.consol
+        del cls.HBNB
 
     def tearDown(self):
         """Remove temporary file (file.json) created as a result"""
@@ -45,11 +45,11 @@ class TestConsole(unittest.TestCase):
         """Pep8 console.py"""
         style = pep8.StyleGuide(quiet=True)
         result = style.check_files(["console.py"])
-        self.assertEqual(p.total_errors, 0, 'go fix Pep8')
+        self.assertEqual(result.total_errors, 0, 'go fix Pep8')
 
     def test_docstrings_in_console(self):
         """checking for docstrings"""
-        self.assertIsNotNone(console.__doc__)
+        self.assertIsNotNone(HBNBCommand.__doc__)
         self.assertIsNotNone(HBNBCommand.emptyline.__doc__)
         self.assertIsNotNone(HBNBCommand.do_quit.__doc__)
         self.assertIsNotNone(HBNBCommand.do_EOF.__doc__)
@@ -59,29 +59,46 @@ class TestConsole(unittest.TestCase):
         self.assertIsNotNone(HBNBCommand.do_all.__doc__)
         self.assertIsNotNone(HBNBCommand.do_update.__doc__)
         self.assertIsNotNone(HBNBCommand.do_count.__doc__)
-        self.assertIsNotNone(HBNBCommand.do_test.__doc__)
 
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db",
                      "Testing db")
     def test_create(self):
         """Test create command input"""
         with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd("create")
+            self.HBNB.onecmd("create")
             self.assertEqual(
                 "** class name missing **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd("create notAClass")
+            self.HBNB.onecmd("create notAClass")
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
-
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd("create User")
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd('create State name="California"')
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd("all User")
-            self.assertEqual(
-                "[[User]", f.getvalue()[:7])
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("create BaseModel")
+            bm = f.getvalue().strip()
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("create User")
+            us = f.getvalue().strip()
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("create State")
+            st = f.getvalue().strip()
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("all BaseModel")
+            self.assertIn(bm, f.getvalue())
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("all User")
+            self.assertIn(us, f.getvalue())
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("all State")
+            self.assertIn(st, f.getvalue())
+        with patch("sys.stdout", new=StringIO()) as f:
+            call = ('create State name="California"')
+            self.HBNB.onecmd(call)
+            st = f.getvalue().strip()
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.HBNB.onecmd("all State")
+            output = f.getvalue()
+            self.assertIn(st, output)
+            self.assertIn("'name': 'California'", output)
 
 if __name__ == "__main__":
     unittest.main()
