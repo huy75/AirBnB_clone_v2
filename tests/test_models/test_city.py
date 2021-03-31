@@ -17,7 +17,7 @@ from datetime import datetime
 
 class TestBaseDocs(unittest.TestCase):
     """
-    Tests to check the documentation and style of Base class
+    Tests to check the documentation and style of City class
     """
     @classmethod
     def setUpClass(cls):
@@ -28,7 +28,7 @@ class TestBaseDocs(unittest.TestCase):
 
     def test_pep8_conformance_base(self):
         """
-        Test that models/base.py conforms to PEP8.
+        Test that models/city.py conforms to PEP8.
         """
         pep8style = pep8.StyleGuide(quiet=True)
         result = pep8style.check_files(['models/city.py'])

@@ -14,9 +14,9 @@ import os
 from datetime import datetime
 
 
-class TestUser(unittest.TestCase):
+class TestBaseDocs(unittest.TestCase):
     """
-    Test the User class.
+    Tests to check the documentation and style of User class
     """
     @classmethod
     def setUpClass(cls):

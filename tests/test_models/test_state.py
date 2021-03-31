@@ -16,7 +16,7 @@ from datetime import datetime
 
 class TestBaseDocs(unittest.TestCase):
     """
-    Tests to check the documentation and style of Base class
+    Tests to check the documentation and style of State class
     """
     @classmethod
     def setUpClass(cls):
