@@ -1,10 +1,17 @@
 #!/usr/bin/python3
-"""test for console"""
+"""
+Test for console
+Usage:
+    To be used with the unittest module:
+    "python3 -m unittest discover tests" command or
+    "python3 -m unittest tests/test_console.py"
+"""
 import unittest
-from unittest.mock import patch
+from unittest.mock import create_autospec, patch
 from io import StringIO
 import pep8
 import os
+import sys
 import json
 import console
 import tests
@@ -20,6 +27,8 @@ from models.review import Review
 from models.engine.file_storage import FileStorage
 from models.engine.db_storage import DBStorage
 from models import storage
+
+classes = ["User", "State", "City", "Amenity", "Place", "Review"]
 
 
 class TestConsole(unittest.TestCase):
@@ -40,6 +49,15 @@ class TestConsole(unittest.TestCase):
             os.remove("file.json")
         except Exception:
             pass
+
+    def setUp(self):
+        """ Sets up the mock stdin and stderr. """
+        self.mock_stdin = create_autospec(sys.stdin)
+        self.mock_stdout = create_autospec(sys.stdout)
+
+    def create_session(self, server=None):
+        """ Creates the cmd session. """
+        return HBNBCommand(stdin=self.mock_stdin, stdout=self.mock_stdout)
 
     def test_pep8_console(self):
         """Pep8 console.py"""
@@ -92,40 +110,17 @@ class TestConsole(unittest.TestCase):
                      "Testing db")
     def test_create(self):
         """Test create command."""
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("create BaseModel")
-            bm = f.getvalue().strip()
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("create User")
-            us = f.getvalue().strip()
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("create State")
-            st = f.getvalue().strip()
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("all BaseModel")
-            self.assertIn(bm, f.getvalue())
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("all User")
-            self.assertIn(us, f.getvalue())
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("all State")
-            self.assertIn(st, f.getvalue())
-        with patch("sys.stdout", new=StringIO()) as f:
-            call = ('create State name="California"')
-            self.HBNB.onecmd(call)
-            st = f.getvalue().strip()
-            ids = []
-            ID = ''
-            ID = str(f.getvalue())
-            ids.append(ID[:-1])
-            key = "State." + ids[0]
-            dict = storage.all()[key]
-            self.assertTrue('name' in dict.__dict__)
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("all State")
-            output = f.getvalue()
-            self.assertIn(st, output)
-            self.assertIn("'name': 'California'", output)
+        # Create console session.
+        cons = self.create_session()
+
+        # Tests all classes.
+        for className in classes:
+            # Test "create {} test='TEST'".
+            with patch('sys.stdout', new=StringIO()) as Output:
+                cons.onecmd('create {} test=\"TEST\"'.format(className))
+                create_stdout = Output.getvalue().strip()
+                create_stdout = '{}.{}'.format(className, create_stdout)
+                self.assertTrue(create_stdout in storage.all())
 
     def test_show(self):
         """Test show command."""
@@ -171,9 +166,6 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.HBNB.onecmd("all notaclass")
             self.assertEqual("** class doesn't exist **\n", f.getvalue())
-        with patch("sys.stdout", new=StringIO()) as f:
-            self.HBNB.onecmd("all State")
-            self.assertEqual("[]\n", f.getvalue())
 
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Testing db")
     def test_update(self):
