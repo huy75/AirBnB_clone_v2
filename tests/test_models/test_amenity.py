@@ -47,6 +47,7 @@ class TestBaseDocs(unittest.TestCase):
         for func in self.base_funcs:
             self.assertTrue(len(func[1].__doc__) >= 1)
 
+
 class TestAmenity(unittest.TestCase):
     """
     Test the Amenity class.
@@ -71,7 +72,7 @@ class TestAmenity(unittest.TestCase):
 
     def test_Amenity_attribute_type(self):
         """
-        Test State class type attributes.
+        Test Amenity class type attributes.
         """
         new_amenity = self.am
         name_value = getattr(new_amenity, "name")

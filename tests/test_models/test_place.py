@@ -17,7 +17,6 @@ import os
 from datetime import datetime
 
 
-
 class TestPlace(unittest.TestCase):
     """
     Testing Place class

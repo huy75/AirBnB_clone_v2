@@ -63,7 +63,7 @@ class TestBaseModel(unittest.TestCase):
     def test_uniq_id(self):
         """
         Test if IDs are always uniq
-        """
+ ttributes.reated_at       """
         self.assertNotEqual(self.b1.id, self.b2.id)
         self.assertNotEqual(self.b1.id, self.b3.id)
         self.assertNotEqual(self.b2.id, self.b3.id)
@@ -136,14 +136,14 @@ class TestBaseModel(unittest.TestCase):
             self.assertEqual(type(json["created_at"]), str)
             c = base.created_at
             e1 = "{}-{:02d}-{:02d}T\
-                 {:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
-                                                     c.hour, c.minute,
-                                                     c.second, c.microsecond)
+{:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
+                                    c.hour, c.minute, c.second, c.microsecond)
             c = base.updated_at
             e2 = "{}-{:02d}-{:02d}T\
-                 {:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
-                                                     c.hour, c.minute,
-                                                     c.second, c.microsecond)
+{:02d}:{:02d}:{:02d}.{:06d}".format(c.year, c.month, c.day,
+                                    c.hour, c.minute,
+                                    c.second, c.microsecond)
+            print("e2 = {}".format(e2))
             self.assertEqual(json["updated_at"], e2)
             self.assertEqual(json["created_at"], e1)
 
