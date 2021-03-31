@@ -158,3 +158,6 @@ class TestFileStorage(unittest.TestCase):
         if key in self.__objects:
             del self.__objects[key]
             self.save()
+
+if __name__ == "__main__":
+    unittest.main()
