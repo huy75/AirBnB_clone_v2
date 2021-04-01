@@ -46,7 +46,7 @@ class TestDBStorage(unittest.TestCase):
                               latitude=37.773972, longitude=-122.431297)
             # cls.storage._DBStorage__session.add(cls.place)
             cls.amenity = Amenity(name="Wifi")
-            #cls.storage._DBStorage__session.add(cls.amenity)
+            # cls.storage._DBStorage__session.add(cls.amenity)
             cls.review = Review(place_id=cls.place.id, user_id=cls.user.id,
                                 text="stellar")
             # cls.storage._DBStorage__session.add(cls.review)
