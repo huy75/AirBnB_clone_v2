@@ -155,11 +155,11 @@ class TestConsole(unittest.TestCase):
             self.HBNB.onecmd("destroy User")
             self.assertEqual(
                 "** instance id missing **\n", f.getvalue())
-"""        with patch('sys.stdout', new=StringIO()) as f:
+        with patch('sys.stdout', new=StringIO()) as f:
             self.HBNB.onecmd("destroy BaseModel xxx")
+            print(f.getvalue())
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
-"""
 
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Testing db")
     def test_all(self):
