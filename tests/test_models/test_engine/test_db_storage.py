@@ -34,21 +34,25 @@ class TestDBStorage(unittest.TestCase):
             Session = sessionmaker(bind=cls.storage._DBStorage__engine)
             cls.storage._DBStorage__session = Session()
             cls.state = State(name="California")
-            cls.storage._DBStorage__session.add(cls.state)
+            # cls.storage._DBStorage__session.add(cls.state)
             cls.city = City(name="San_Francisco", state_id=cls.state.id)
-            cls.storage._DBStorage__session.add(cls.city)
+            # cls.storage._DBStorage__session.add(cls.city)
             cls.user = User(email="betty@holberton.com", password="betty")
-            cls.storage._DBStorage__session.add(cls.user)
+            # cls.storage._DBStorage__session.add(cls.user)
             cls.place = Place(city_id=cls.city.id, user_id=cls.user.id,
-                              name="School")
-            cls.storage._DBStorage__session.add(cls.place)
+                              name="Lovely_place", number_rooms=3,
+                              number_bathrooms=1,
+                              max_guest=6, price_by_night=120,
+                              latitude=37.773972, longitude=-122.431297)
+            # cls.storage._DBStorage__session.add(cls.place)
             cls.amenity = Amenity(name="Wifi")
-            cls.storage._DBStorage__session.add(cls.amenity)
+            #cls.storage._DBStorage__session.add(cls.amenity)
             cls.review = Review(place_id=cls.place.id, user_id=cls.user.id,
                                 text="stellar")
-            cls.storage._DBStorage__session.add(cls.review)
-            cls.storage._DBStorage__session.commit()
+            # cls.storage._DBStorage__session.add(cls.review)
+            # cls.storage._DBStorage__session.commit()
 
+    '''
     @classmethod
     def tearDownClass(cls):
         """DBStorage testing teardown.
@@ -69,6 +73,7 @@ class TestDBStorage(unittest.TestCase):
             del cls.review
             cls.storage._DBStorage__session.close()
             del cls.storage
+    '''
 
     def test_pep8(self):
         """Test pep8 styling."""
@@ -127,12 +132,14 @@ class TestDBStorage(unittest.TestCase):
         self.assertFalse(key in dic2.keys())
         self.assertFalse(key2 in dic.keys())
 
-    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db',
-                     "can't run if storage is file")
+    # @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db',
+    #                 "can't run if storage is file")
+
     def test_reload(self):
         """Test for reload()"""
         obj = DBStorage()
         self.assertTrue(obj._DBStorage__engine is not None)
+        self.assertTrue(type(obj), DBStorage)
 
 if __name__ == "__main__":
     unittest.main()
