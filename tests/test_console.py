@@ -157,7 +157,6 @@ class TestConsole(unittest.TestCase):
                 "** instance id missing **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.HBNB.onecmd("destroy BaseModel xxx")
-            print(f.getvalue())
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
