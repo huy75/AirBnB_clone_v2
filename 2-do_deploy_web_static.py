@@ -48,7 +48,7 @@ def do_deploy(archive_path):
         """
         run("ln -s /data/web_static/releases/{} /data/web_static/current"
             .format(name))
-        run("service nginx reload")
+        run("service nginx restart")
         return True
     except:
         return False
