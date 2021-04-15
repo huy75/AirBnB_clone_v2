@@ -29,7 +29,7 @@ def do_deploy(archive_path):
         run("mkdir -p /data/web_static/releases/{}".format(name))
         """ Uncompress the archive on the web server """
         run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
-             .format(base_name, name))
+            .format(base_name, name))
 
         """ Delete the archive from the web server """
         run("rm -rf /tmp/{}".format(base_name))
@@ -41,8 +41,8 @@ def do_deploy(archive_path):
         linked to the new version of the code
         """
         run("ln -fs /data/web_static/releases/{} /data/web_static/current"
-             .format(name))
-        run("service nginx restart")
+            .format(name))
+        """ run("service nginx restart") """
     except:
         return False
     return True
