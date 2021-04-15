@@ -22,28 +22,27 @@ def do_deploy(archive_path):
     base_name = path.basename(archive_path)
     name = base_name.split(".")[0]
 
-    with settings(abort_exception=Exception):
-        try:
-            """ Upload the archive to the /tmp/ directory of the web server """
-            put(archive_path, "/tmp")
+    try:
+        """ Upload the archive to the /tmp/ directory of the web server """
+        put(archive_path, "/tmp")
 
-            sudo("mkdir -p /data/web_static/releases/{}".format(name))
-            """ Uncompress the archive on the web server """
-            sudo("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
-                 .format(base_name, name))
+        sudo("mkdir -p /data/web_static/releases/{}".format(name))
+        """ Uncompress the archive on the web server """
+        sudo("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
+             .format(base_name, name))
 
-            """ Delete the archive from the web server """
-            sudo("rm /tmp/{}".format(base_name))
+        """ Delete the archive from the web server """
+        sudo("rm /tmp/{}".format(base_name))
 
-            """ Delete the symbolic link from the web server """
-            sudo("rm /data/web_static/current")
-            """
-            Create a new the symbolic link on the web server,
-            linked to the new version of the code
-            """
-            sudo("ln -fs /data/web_static/releases/{} /data/web_static/current"
-                 .format(name))
-            sudo("service nginx restart")
-        except Exception:
-            return False
+        """ Delete the symbolic link from the web server """
+        sudo("rm /data/web_static/current")
+        """
+        Create a new the symbolic link on the web server,
+        linked to the new version of the code
+        """
+        sudo("ln -fs /data/web_static/releases/{} /data/web_static/current"
+             .format(name))
+        sudo("service nginx restart")
+    except:
+        return False
     return True
