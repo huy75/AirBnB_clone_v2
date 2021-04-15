@@ -32,10 +32,10 @@ def do_deploy(archive_path):
              .format(base_name, name))
 
         """ Delete the archive from the web server """
-        sudo("rm /tmp/{}".format(base_name))
+        sudo("rm -rf /tmp/{}".format(base_name))
 
         """ Delete the symbolic link from the web server """
-        sudo("rm /data/web_static/current")
+        sudo("rm -rf /data/web_static/current")
         """
         Create a new the symbolic link on the web server,
         linked to the new version of the code
