@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # Fabfile to distribute an archive to a web server.
 from os import path
-from fabric.api import env, put, sudo
+from fabric.api import env, put, run
 
 env.hosts = ["35.227.45.0", "35.237.153.115"]
 env.user = 'ubuntu'
@@ -26,23 +26,23 @@ def do_deploy(archive_path):
         """ Upload the archive to the /tmp/ directory of the web server """
         put(archive_path, "/tmp")
 
-        sudo("mkdir -p /data/web_static/releases/{}".format(name))
+        run("mkdir -p /data/web_static/releases/{}".format(name))
         """ Uncompress the archive on the web server """
-        sudo("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
+        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
              .format(base_name, name))
 
         """ Delete the archive from the web server """
-        sudo("rm -rf /tmp/{}".format(base_name))
+        run("rm -rf /tmp/{}".format(base_name))
 
         """ Delete the symbolic link from the web server """
-        sudo("rm -rf /data/web_static/current")
+        run("rm -rf /data/web_static/current")
         """
         Create a new the symbolic link on the web server,
         linked to the new version of the code
         """
-        sudo("ln -fs /data/web_static/releases/{} /data/web_static/current"
+        run("ln -fs /data/web_static/releases/{} /data/web_static/current"
              .format(name))
-        sudo("service nginx restart")
+        run("service nginx restart")
     except:
         return False
     return True
