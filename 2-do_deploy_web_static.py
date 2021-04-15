@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # Fabfile to distribute an archive to a web server.
 from os import path
-from fabric.api import env, put, run, sudo
+from fabric.api import env, put, run
 
 env.hosts = ["35.227.45.0", "35.237.153.115"]
 env.user = 'ubuntu'
@@ -34,11 +34,12 @@ def do_deploy(archive_path):
         """ Delete the archive from the web server """
         run("rm /tmp/{}".format(base_name))
 
-        cmd = "mv /data/web_static/releases/{}/web_static/* \
-        /data/web_static/releases/{}/"
-        sudo(cmd.format(name, name))
+        run(cmd.format(name, name))
 
-        run("rm -rf /data/web_static/releases/{}/web_static/")
+        run("mv /data/web_static/releases/{}/web_static/* \
+        /data/web_static/releases/{}/".format(name, name))
+
+        run("rm -rf /data/web_static/releases/{}/web_static/".format(name))
 
         """ Delete the symbolic link from the web server """
         run("rm -rf /data/web_static/current")
@@ -48,7 +49,7 @@ def do_deploy(archive_path):
         """
         run("ln -s /data/web_static/releases/{} /data/web_static/current"
             .format(name))
-        run("service nginx restart")
+        print("New version deployed!")
         return True
     except:
         return False
