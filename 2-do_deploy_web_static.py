@@ -34,8 +34,6 @@ def do_deploy(archive_path):
         """ Delete the archive from the web server """
         run("rm /tmp/{}".format(base_name))
 
-        run(cmd.format(name, name))
-
         run("mv /data/web_static/releases/{}/web_static/* \
         /data/web_static/releases/{}/".format(name, name))
 
