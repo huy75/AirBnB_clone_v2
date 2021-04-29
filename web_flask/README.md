@@ -858,8 +858,6 @@ guillaume@ubuntu:~$
 
 ### 11. HBNB filters
 
-mandatory
-
 Write a script that starts a Flask web application:
 
 -   Your web application must be listening on  `0.0.0.0`, port  `5000`
@@ -900,16 +898,9 @@ In the browser:
 
 ![](https://holbertonintranet.s3.amazonaws.com/uploads/medias/2020/9/4f993ec8ca2a2f639a80887667106ac63a0a3701.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUWMNL5ANN%2F20210429%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210429T090207Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=830c5ac46c26a098e64a68f2ffb54a66f1d0d95d975a28030d4d5ca62d92bcca)  ![](https://holbertonintranet.s3.amazonaws.com/uploads/medias/2020/9/1549b553d726cc37f64440be910cb6b858aa32ae.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUWMNL5ANN%2F20210429%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210429T090207Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=be6475dde1ae3d2944c97892a48f39190566a7bf56696455460e63709fe7d9f5)  ![](https://holbertonintranet.s3.amazonaws.com/uploads/medias/2020/9/94b3a416ba1551c59701eb6672ac0a36fbebba14.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUWMNL5ANN%2F20210429%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210429T090207Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=f31081a739064f652c40bca610cc076dee74febbc7bd3650446e9f43d0b982e7)  ![](https://holbertonintranet.s3.amazonaws.com/uploads/medias/2020/9/1e559707dd34a37564dc10e54b707815a516d363.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUWMNL5ANN%2F20210429%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210429T090207Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=900aaa76e3ed54bedda244e1b70685b63ed010df057f5cde10283ac6972f1576)
 
-**Repo:**
-
--   GitHub repository:  `AirBnB_clone_v2`
--   File:  `web_flask/10-hbnb_filters.py, web_flask/templates/10-hbnb_filters.html, web_flask/static/`
-
-Done?  Help
 
 ### 12. HBNB is alive!
 
-#advanced
 
 Write a script that starts a Flask web application:
 
