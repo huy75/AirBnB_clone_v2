@@ -17,11 +17,11 @@ def close(self):
     storage.close()
 
 
-@app.route('/states_list', strict_slashes=False)
-def state_list():
-    """Returns states list"""
+@app.route('/cities_by_states', strict_slashes=False)
+def state_id():
+    """Returns states and cities"""
     states = storage.all(State).values()
-    return render_template('7-states_list.html', states=states)
+    return render_template('8-cities_by_states.html', states=states)
 
 
 if __name__ == '__main__':
