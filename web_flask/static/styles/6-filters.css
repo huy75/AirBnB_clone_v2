@@ -71,6 +71,8 @@
     position: relative;
     padding: 20px 0px 25px 0px;
     z-index: 1;
+    max-height: 300px;
+    overflow: scroll;
 }
 
 .popover ul {
